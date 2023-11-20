@@ -1,24 +1,32 @@
 version: '3.4'
 
 services:
-  nest101:
-    image: nest101
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
-    ports:
-      - 3000:3000
-  dev-db:
-    image: postgres
-    ports:
-    - 5432:5432
-    environment:
-      POSTGRES_USER: db-user
-      POSTGRES_PASSWORD: pw1234
-      POSTGRES_DB: nest101service-db
-    networks:
-      - dockNet
+    nest101:
+        image: nest101
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        environment:
+            NODE_ENV: production
+        ports:
+            - 3000:3000
+    dev-db:
+        image: postgres
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_USER: db-user
+            POSTGRES_PASSWORD: pw1234
+            POSTGRES_DB: nest101service-db
+    test-db:
+        image: postgres
+        ports:
+            - 5433:5432
+        environment:
+            POSTGRES_USER: test-db-user
+            POSTGRES_PASSWORD: pw1234
+            POSTGRES_DB: nest101test-db
+        networks:
+            - dockNet
 networks:
-  dockNet:
+    dockNet:
