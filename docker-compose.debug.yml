@@ -1,14 +1,24 @@
 version: '3.4'
 
 services:
-  nest101:
-    image: nest101
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: development
-    ports:
-      - 3000:3000
-      - 9229:9229
-    command: ["node", "--inspect=0.0.0.0:9229", "index.js"]
+    nest101:
+        image: nest101
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        environment:
+            NODE_ENV: development
+        ports:
+            - 3000:3000
+            - 9229:9229
+        command: ['node', '--inspect=0.0.0.0:9229', 'index.js']
+    test-db:
+        image: postgres
+        ports:
+            - 5433:5432
+        environment:
+            POSTGRES_USER: test-db-user
+            POSTGRES_PASSWORD: pw1234
+            POSTGRES_DB: nest101test-db
+        networks:
+            - dockNet

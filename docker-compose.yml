@@ -7,9 +7,15 @@ services:
             context: .
             dockerfile: ./Dockerfile
         environment:
-            NODE_ENV: production
+            DATABASE_URL: postgresql://db-user:pw1234@localhost:5432/nest101service-db?schema=public
+            JWT_SECRET: super-secret
+            JWT_EXPIRES_IN: 90d
         ports:
             - 3000:3000
+        depends_on:
+            - dev-db
+        networks:
+            - dockNet
     dev-db:
         image: postgres
         ports:
@@ -18,15 +24,13 @@ services:
             POSTGRES_USER: db-user
             POSTGRES_PASSWORD: pw1234
             POSTGRES_DB: nest101service-db
-    test-db:
-        image: postgres
-        ports:
-            - 5433:5432
-        environment:
-            POSTGRES_USER: test-db-user
-            POSTGRES_PASSWORD: pw1234
-            POSTGRES_DB: nest101test-db
         networks:
             - dockNet
+        volumes:
+            - appStorage:/var/lib/postgresql/data
 networks:
     dockNet:
+
+volumes:
+    appStorage:
+        driver: local
