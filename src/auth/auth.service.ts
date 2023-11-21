@@ -25,8 +25,11 @@ export class AuthService {
             });
             return this.signToken(user.id, user.email);
         } catch (error) {
-            if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
-                    throw new ForbiddenException('Email already exists');
+            if (
+                error instanceof PrismaClientKnownRequestError &&
+                error.code === 'P2002'
+            ) {
+                throw new ForbiddenException('Email already exists');
             }
             throw error;
         }
